@@ -31,12 +31,12 @@ create table alumno(
 );
 
 insert into alumno (id_alumno, nif, nom_alumno, apellido1, apellido2, ciudad, dirección, telefono, fecha_nacimiento, sexo) values 
-(1, 123459879, 'Santiago', 'Aguiree', 'Avila', 'Armenia', 'Avenida 1', 3135785497, '2006-04-26', 'Masculino'),
-(2, 987654321, 'María', 'López', 'García', 'Bogotá', 'Calle 7', 3104567890, '2005-09-15', 'Femenino'),
-(3, 876543210, 'Carlos', 'Ramírez', 'Vargas', 'Medellín', 'Carrera 12', 3151234567, '2003-11-03', 'Masculino'),
-(4, 543216789, 'Laura', 'Pérez', 'Martínez', 'Cali', 'Avenida 5', 3189876543, '2004-07-20', 'Femenino'),
-(5, 987612345, 'Andrés', 'González', 'Rodríguez', 'Barranquilla', 'Calle 25', 3009876123, '2002-02-10', 'Masculino'),
-(6, 654312789, 'Isabella', 'Fernández', 'Luna', 'Bucaramanga', 'Carrera 8', 3176543128, '2007-08-18', 'Femenino');
+(1, 123459879, 'Santiago', 'Aguiree', 'Avila', 'Armenia', 'Avenida 1', 3135785497, '2006-04-26', 'H'),
+(2, 987654321, 'María', 'López', 'García', 'Bogotá', 'Calle 7', 3104567890, '2005-09-15', 'M'),
+(3, 876543210, 'Carlos', 'Ramírez', 'Vargas', 'Medellín', 'Carrera 12', 3151234567, '2003-11-03', 'H'),
+(4, 543216789, 'Laura', 'Pérez', 'Martínez', 'Cali', 'Avenida 5', 3189876543, '2004-07-20', 'M'),
+(5, 987612345, 'Andrés', 'González', 'Rodríguez', 'Barranquilla', 'Calle 25', 3009876123, '2002-02-10', 'H'),
+(6, 654312789, 'Isabella', 'Fernández', 'Luna', 'Bucaramanga', 'Carrera 8', 3176543128, '2007-08-18', 'M');
 alter table alumno drop column id_departamento;
 select * from alumno;
 
@@ -83,11 +83,11 @@ create table profesor(
 	foreign key (id_departamento) references departamento (id_departamento)
 );
 insert into profesor (id_profesor, nif, nom_profesor, apellido1, apellido2, ciudad, dirección, telefono, fecha_nacimiento, sexo, id_departamento) values 
-(2, 987654321, 'María', 'López', 'García', 'Bogotá', 'Calle 7', 3104567890, '2005-09-15', 'Femenino', 1),
-(3, 876543210, 'Carlos', 'Ramírez', 'Vargas', 'Medellín', 'Carrera 12', 3151234567, '2003-11-03', 'Masculino', 2),
-(4, 543216789, 'Laura', 'Pérez', 'Martínez', 'Cali', 'Avenida 5', 3189876543, '2004-07-20', 'Femenino', 3),
-(5, 987612345, 'Andrés', 'González', 'Rodríguez', 'Barranquilla', 'Calle 25', 3009876123, '2002-02-10', 'Masculino', 4),
-(6, 654312789, 'Isabella', 'Fernández', 'Luna', 'Bucaramanga', 'Carrera 8', 3176543128, '2007-08-18', 'Femenino', 5);
+(2, 987654321, 'María', 'López', 'García', 'Bogotá', 'Calle 7', 3104567890, '2005-09-15', 'M', 1),
+(3, 876543210, 'Carlos', 'Ramírez', 'Vargas', 'Medellín', 'Carrera 12', 3151234567, '2003-11-03', 'H', 2),
+(4, 543216789, 'Laura', 'Pérez', 'Martínez', 'Cali', 'Avenida 5', 3189876543, '2004-07-20', 'M', 3),
+(5, 987612345, 'Andrés', 'González', 'Rodríguez', 'Barranquilla', 'Calle 25', 3009876123, '2002-02-10', 'H', 4),
+(6, 654312789, 'Isabella', 'Fernández', 'Luna', 'Bucaramanga', 'Carrera 8', 3176543128, '2007-08-18', 'M', 5);
 select * from profesor;
 
 
@@ -102,13 +102,15 @@ create table asignatura(
     foreign key (id_profesor) references profesor (id_profesor),
 	foreign key (id_grado) references grado (id_grado)
 );
+alter table asignatura modify column tipo enum ('básica', 'obligatoria', 'optativa') not null;
 
 insert into asignatura (id_asignatura, nom_asignatura, creditos, tipo, curso, id_profesor, id_grado) values 
-(1, 'Matemáticas', 4.0, 'Básico', 1, 2, 1),
-(2, 'Historia', 3.5, 'Avanzado', 2, 3, 2),
-(3, 'Biología', 3.0, 'Especializado', 3, 4, 3),
-(4, 'Física', 4.5, 'Avanzado', 4, 5, 4),
-(5, 'Literatura', 3.0, 'Básico', 5, 6, 5);
+(1, 'Matemáticas', 4.0, 'básica', 1, 2, 1),
+(2, 'Historia', 3.5, 'obligatoria', 2, 3, 2),
+(3, 'Biología', 3.0, 'optativa', 3, 4, 3),
+(4, 'Física', 4.5, 'optativa', 4, 5, 4),
+(5, 'Literatura', 3.0, 'básica', 5, 6, 5);
+select * from asignatura;
 
 create table alumno_se_matricula_asignatura(
 	id_alumno int not null,
